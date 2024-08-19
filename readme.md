@@ -1,7 +1,7 @@
 [<h2>여비증빙 자동화 사이트</h2>
 
 <h4>포트폴리오 : https://yanghuiwon22.github.io/portfolio/cake/ </h4>
-![oilprice_navermap.png](oilprice_navermap.png)
+![oilprice_navermap.png](./oilprice_navermap.png)
 ## 1. 프로젝트 소개
 - 이 프로젝트는 여비증빙을 위한 파일을 자동으로 생성해주는 웹사이트입니다.
 - 사이트 주소 : http://web01.taegon.kr:6800<br>
@@ -17,8 +17,8 @@
 
 ## 5. 프로젝트 결과
 - 아래와 같은 2개의 파일을 다운받을 수 있다. <br>
-<a href="./여비증빙_1693_전북대-서울대-전북대.docx">여비증빙_1693_전북대-서울대-전북대.docx</a><br>
-<a href="여비증빙_1693_전북대-서울대-전북대.pdf">여비증빙_1693_전북대-서울대-전북대.pdf</a>
+<a href="./여비증빙_1693_전북대-서울대-전북대.docx" download>여비증빙_1693_전북대-서울대-전북대.docx</a><br>
+<a href="여비증빙_1693_전북대-서울대-전북대.pdf" download>여비증빙_1693_전북대-서울대-전북대.pdf</a>
 ## 앞으로 추가할 기능
 - 등유, 휘발유 선택 기능
 - 압축파일의 형태로 실행할 수 있도록 구현
