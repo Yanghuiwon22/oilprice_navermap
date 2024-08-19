@@ -1,8 +1,7 @@
 [<h2>여비증빙 자동화 사이트</h2>
 
 <h4>포트폴리오 : https://yanghuiwon22.github.io/portfolio/cake/ </h4>
-![oilprice_navermap](https://github.com/user-attachments/assets/42c150a5-2a08-4fbc-8bc0-40d89ea12759)
-
+<img src='./data/oilprice_navermap.png' alt='여비증빙 자동화 사이트' title='여비증빙 자동화 사이트'/>
 ## 1. 프로젝트 소개
 - 이 프로젝트는 여비증빙을 위한 파일을 자동으로 생성해주는 웹사이트입니다.
 - 사이트 주소 : http://web01.taegon.kr:6800<br>
