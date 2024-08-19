@@ -6,11 +6,12 @@ from PIL import Image
 from oil_price_celenium import get_oil_price
 
 from io import BytesIO
+import os
 
+if not os.path.exists("./output"):
+    os.makedirs("./output")
 
 st.header(":world_map:지도:world_map: 와 ⛽휘발유 가격⛽을 한번에!!")
-
-
 layout = st.columns([1,3])
 
 # 세션 상태 초기화
