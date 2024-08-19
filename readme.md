@@ -1,6 +1,6 @@
 <h2>여비증빙 자동화 사이트</h2>
 
-<h4>포트폴리오 : https://yanghuiwon22.github.io/portfolio/oilprice_navermap/ </h4>
+<h4>포트폴리오 : https://yanghuiwon22.github.io/portfolio/여비증빙-자동화 </h4>
 <img src='./data/oilprice_navermap.png' alt='여비증빙 자동화 사이트' title='여비증빙 자동화 사이트'/>
 
 ## 1. 프로젝트 소개
