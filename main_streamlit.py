@@ -45,13 +45,8 @@ def main():
         )
 
         start_location = st.text_input("출발지를 입력하세요", value=st.session_state.start_location)
-
-        # 8/19 waypoints 형태 변경
-        ## 기본 waypoints 형태
         waypoints_count = st.number_input("경유지 수를 입력하세요", min_value=0, max_value=10, step=1, value=1, )
 
-        ## waypoints 형태 변경 시도 1
-        # waypoints_count = st.slider('경유지 수를 입력하세요', min_value=0, max_value=10, value=len(st.session_state.waypoints))
 
 
 
@@ -59,8 +54,6 @@ def main():
         for i in range(waypoints_count):
             waypoint = st.text_input(f"경유지 {i + 1}:world_map:")
             waypoints.append(waypoint)
-
-        # end_location = st.text_input("도착지를 입력하세요", value=start_location, )
 
         if checkbox == '왕복':
             end_location = start_location
@@ -91,12 +84,6 @@ def main():
         st.write('--------')
 
         st.write('🔧 __파일 설정 변경__ 🔧', )
-        # title = st.text_input('제목을 입력하세요', value=f'여비증빙_<오일 가격>_{route}')
-        # color = st.text_input('강조색을 선택하세요(RGB)', value='0,0,255').split(',')
-        # color_red = st.checkbox('빨간색', value=False)
-        # color_blue = st.checkbox('파란색', value=False)
-        # color_black = st.checkbox('검정색', value=False)
-
         color_radio = st.radio(label='강조색을 선택하세요(RGB)', options=['빨간색', '파란색', '검정색'], index=1)
 
         if color_radio == '빨간색':
