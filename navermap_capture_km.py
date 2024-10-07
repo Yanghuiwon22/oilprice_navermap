@@ -34,23 +34,18 @@ def outo_screenshot_km(start_location, end_location, waypoints):
     op = Options()
     op.add_argument('headless')
     op.add_argument('window-size=1920x1080')
-
     op.add_argument('--no-sandbox')
-
     op.add_argument('--disable-dev-shm-usage')
-
-
     op.add_argument("disable-gpu")
     op.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0")
     op.add_argument('lang=ko_KR')
 
     try:
-        print('server side')
         browser = webdriver.Chrome(service=service, options=op)
     except:
-        print('local side')
         browser = webdriver.Chrome(options=op)
+
     url = 'https://map.naver.com/p?c=15.00,0,0,0,dh'
     browser.get(url)
 
@@ -99,10 +94,8 @@ def outo_screenshot_km(start_location, end_location, waypoints):
 
 
     text = browser.page_source
-    print(type(text))
     distance_between_locations = browser.find_element(By.XPATH, '//*[@id="section_content"]/div/div[2]/div/div[2]/ul/li[1]/div/div/div[2]/span')
     distance = distance_between_locations.text
-    print(f"총 거리 : {distance}")
 
     time.sleep(1)
 
@@ -270,7 +263,7 @@ def get_image_ratio(image_path):
     return ratio
 
 def main():
-    get_pdf('전북대', '서울대', ['부산대', '대구대'], '100km', '2021-07-01', '2000')
+    get_pdf('전북대', '서울대', ['부산대', '대구대'], '100km', '2021-07-01', '2000', (0, 0, 0))
 
 if __name__ == "__main__":
     main()

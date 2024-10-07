@@ -14,45 +14,17 @@ chrome_driver_path = "/usr/bin/chromedriver"
 service = Service(chrome_driver_path)
 
 def get_oil_price(sy, sm, sd):
-    # chrome_options = Options()
-    # op = Options()
-
-    # op.add_argument('headless')
-    # op.add_argument('window-size=1920x1080')
-    # op.add_argument('--no-sandbox')
-    # op.add_argument("disable-gpu")
-    # op.add_argument(
-    #     "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0")
-    # op.add_argument('lang=ko_KR')
-    # chrome_options.add_argument('window-size=1920x1080')
-    # chrome_options.add_argument('--no-sandbox')
-    # chrome_options.add_argument('--disable-dev-shm-usage')
-    # chrome_options.add_argument('--disable-gpu')
-    # chrome_options.add_argument('--headless')
-    # chrome_options.add_argument('--disable-crash-reporter')
-    # chrome_options.add_argument('--disable-extensions')
-    # chrome_options.add_argument('--disable-in-process-stack-traces')
-    # chrome_options.add_argument('--disable-logging')
-    # chrome_options.add_argument('--disable-dev-shm-usage')
-    # chrome_options.add_argument('--log-level=3')
-    # chrome_options.add_argument('--output=/dev/null')
-
-
 
     op = Options()
     op.add_argument('headless')
     op.add_argument('window-size=1920x1080')
-
     op.add_argument('--no-sandbox')
-
     op.add_argument('--disable-dev-shm-usage')
-
 
     op.add_argument("disable-gpu")
     op.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0")
     op.add_argument('lang=ko_KR')
-
 
     try:
         driver = webdriver.Chrome(service=service, options=op)
@@ -63,30 +35,6 @@ def get_oil_price(sy, sm, sd):
 
     driver.get(url)
     driver.maximize_window()    # start_year
-    # start_year = driver.find_element(By.XPATH, '//*[@id="STA_Y"]')
-    # start_year.send_keys(sy)
-    # start_year.send_keys(Keys.RETURN)
-    #
-    # start_month = driver.find_element(By.XPATH, '//*[@id="STA_M"]')
-    # start_month.send_keys(sm)
-    # start_month.send_keys(Keys.RETURN)
-    #
-    # start_day = driver.find_element(By.XPATH, '//*[@id="STA_D"]')
-    # start_day.send_keys(sd)
-    # start_day.send_keys(Keys.RETURN)
-    #
-    # # end
-    # end_year = driver.find_element(By.XPATH, '//*[@id="END_Y"]')
-    # end_year.send_keys(sy)
-    # end_year.send_keys(Keys.RETURN)
-    #
-    # end_month = driver.find_element(By.XPATH, '//*[@id="END_M"]')
-    # end_month.send_keys(sm)
-    # end_month.send_keys(Keys.RETURN)
-    #
-    # end_month = driver.find_element(By.XPATH, '//*[@id="END_D"]')
-    # end_month.send_keys(sd)
-    # end_month.send_keys(Keys.RETURN)
 
     select_sy = Select(driver.find_element(By.ID, 'STA_Y'))
     select_sy.select_by_value(str(sy))
@@ -106,13 +54,11 @@ def get_oil_price(sy, sm, sd):
     select_ed = Select(driver.find_element(By.ID, 'END_D'))
     select_ed.select_by_value(f'{sd:02d}')
 
-
-
-
-
     time.sleep(1)
+
     btn_search = driver.find_element(By.ID, 'btn_search')
     btn_search.click()
+
     time.sleep(1)
 
     if not os.path.exists("./output"):
