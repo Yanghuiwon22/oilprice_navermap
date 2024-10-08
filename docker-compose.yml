@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  streamlit:
+    build: .
+    ports:
+      - "6800:6800"
+    volumes:
+      - ./:/usr/src/app
+    command: streamlit run main_streamlit.py --server.port 6800
+
+

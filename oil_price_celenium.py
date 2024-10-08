@@ -9,12 +9,15 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 chrome_driver_path = "/usr/bin/chromedriver"
 service = Service(chrome_driver_path)
 
 def get_oil_price(sy, sm, sd):
 
+    # 서버에서 selenium을 돌리기 위한 설정
     op = Options()
     op.add_argument('headless')
     op.add_argument('window-size=1920x1080')
@@ -32,6 +35,8 @@ def get_oil_price(sy, sm, sd):
         driver = webdriver.Chrome(options=op)
 
     url = 'https://www.opinet.co.kr/user/dopospdrg/dopOsPdrgSelect.do'
+
+    # ================================ 설정 완료 ===============================
 
     driver.get(url)
     driver.maximize_window()    # start_year
@@ -56,7 +61,9 @@ def get_oil_price(sy, sm, sd):
 
     time.sleep(1)
 
-    btn_search = driver.find_element(By.ID, 'btn_search')
+    btn_search = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.ID, 'btn_search'))
+    )
     btn_search.click()
 
     time.sleep(1)

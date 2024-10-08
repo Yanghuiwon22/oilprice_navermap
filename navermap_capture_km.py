@@ -9,13 +9,6 @@ from docx import Document
 from docx.shared import Inches
 from docx.shared import RGBColor
 
-
-from io import BytesIO
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import Paragraph
-
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -64,7 +57,9 @@ def outo_screenshot_km(start_location, end_location, waypoints):
 
     if len(waypoints) != 0:
         for i in range(len(waypoints)):
-            waypoints_search = browser.find_element(By.CSS_SELECTOR, '.search_btn_area button:nth-of-type(2)')
+            waypoints_search = WebDriverWait(browser, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR,'.search_btn_area button:nth-of-type(2)'))
+            )
             waypoints_search.click()
 
         search = browser.find_elements(By.CLASS_NAME, "input_search")
@@ -88,8 +83,12 @@ def outo_screenshot_km(start_location, end_location, waypoints):
     search[0].send_keys(Keys.RETURN)
 
     time.sleep(1.5)
-    road_search = browser.find_element(By.XPATH, '//*[@id="section_content"]/div/div[1]/div[2]/button[3]')
+
+    road_search = WebDriverWait(browser, 10).until(
+        EC.element_to_be_clickable((By.XPATH,'//*[@id="section_content"]/div/div[1]/div[2]/button[3]'))
+    )
     road_search.click()
+
     time.sleep(5)
 
 
@@ -215,10 +214,18 @@ def get_pdf(start_location, end_location, waypoints, distance, oil_date, oil_pri
     y_position -= img_width/ratio
     pdf.drawImage('./output/naver_map.png', 50, y_position, img_width, img_width/ratio)
 
+    # 2번째 페이지 시작
+    pdf.showPage()
+    y_position = 780
+
+
     y_position -= 12 * 2.4
+    pdf.setFont("맑은고딕-Bold", 12)
+
     pdf.setFillColorRGB(color[0], color[1], color[2])  # RGB 색상을 설정합니다.
     text_width = pdf.stringWidth(f'{oil_date}')
     pdf.drawString(50, y_position, f'{oil_date}')
+
 
     pdf.setFont("맑은고딕", 12)
     x_position += text_width
