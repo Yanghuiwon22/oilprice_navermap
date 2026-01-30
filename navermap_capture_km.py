@@ -215,40 +215,30 @@ def get_pdf(start_location, end_location, waypoints, distance, oil_date, oil_pri
     pdf.drawImage('./output/naver_map.png', 50, y_position, img_width, img_width/ratio)
 
     # 2번째 페이지 시작
-    pdf.showPage()
-    y_position = 780
 
+    y_position -= 12 * 2.0  # 간격 확보
 
-    y_position -= 12 * 2.4
+    # ⛽ 유가 정보 (같은 페이지)
     pdf.setFont("맑은고딕-Bold", 12)
-
-    pdf.setFillColorRGB(color[0], color[1], color[2])  # RGB 색상을 설정합니다.
-    text_width = pdf.stringWidth(f'{oil_date}')
+    pdf.setFillColorRGB(color[0], color[1], color[2])
     pdf.drawString(50, y_position, f'{oil_date}')
 
-
+    text_width = pdf.stringWidth(f'{oil_date}')
     pdf.setFont("맑은고딕", 12)
-    x_position += text_width
-    pdf.setFillColorRGB(0, 0, 0)  # 검정
-    pdf.drawString(x_position, y_position, '의 휘발유 가격 : ')
+    pdf.setFillColorRGB(0, 0, 0)
+    pdf.drawString(50 + text_width, y_position, '의 휘발유 가격 : ')
 
-    text_width = pdf.stringWidth('의 휘발유 가격 : ')
-    x_position += text_width
+    text_width2 = pdf.stringWidth('의 휘발유 가격 : ')
     pdf.setFont("맑은고딕-Bold", 12)
-    pdf.setFillColorRGB(color[0], color[1], color[2])  # RGB 색상을 설정합니다.
-    pdf.drawString(x_position, y_position, f'{oil_price}')
+    pdf.setFillColorRGB(color[0], color[1], color[2])
+    pdf.drawString(50 + text_width + text_width2, y_position, f'{oil_price}원')
 
-    pdf.setFont("맑은고딕", 12)
-    text_width = pdf.stringWidth(f'{oil_price}')
-    x_position += text_width
-    pdf.setFillColorRGB(0, 0, 0)  # 검정
-    pdf.drawString(x_position, y_position, '원')
-
-    y_position -= 12 * 1.2
+    # 유가 그래프 이미지
+    y_position -= 12 * 1.5
     ratio = get_image_ratio('./output/oil_price.png')
-    img_width = 500
-    y_position -= img_width/ratio
-    pdf.drawImage('./output/oil_price.png', 50, y_position, img_width, img_width/ratio)
+    img_width = 420
+    y_position -= img_width / ratio
+    pdf.drawImage('./output/oil_price.png', 50, y_position, img_width, img_width / ratio)
 
     pdf.save()
 
