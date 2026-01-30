@@ -6,7 +6,7 @@ RUN apt install -y libgconf-2-4 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN apt install -y ./google-chrome-stable_current_amd64.deb
 
-RUN wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.89/linux64/chromedriver-linux64.zip \
+RUN wget https://storage.googleapis.com/chrome-for-testing-public/144.0.7559.109/linux64/chromedriver-linux64.zip \
     && unzip chromedriver-linux64.zip \
     && mv chromedriver-linux64/chromedriver /usr/bin/chromedriver \
     && chmod +x /usr/bin/chromedriver \
