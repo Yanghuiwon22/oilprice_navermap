@@ -93,7 +93,7 @@ def outo_screenshot_km(start_location, end_location, waypoints):
 
 
     text = browser.page_source
-    distance_between_locations = browser.find_element(By.XPATH, '//*[@id="section_content"]/div/div[2]/div/div[2]/ul/li[1]/div/div/div[2]/span')
+    distance_between_locations = browser.find_element(By.XPATH, '//*[@id="section_content"]/div/div[2]/div[2]/div[1]/ul/li[1]/div/div/div[2]/span')
     distance = distance_between_locations.text
 
     time.sleep(1)
@@ -167,7 +167,7 @@ def get_pdf(start_location, end_location, waypoints, distance, oil_date, oil_pri
     pdfmetrics.registerFont(TTFont("맑은고딕", font_path))
     pdfmetrics.registerFont(TTFont("맑은고딕-Bold", "malgunbd.ttf"))  # 볼드체 폰트 등록
 
-    pdf.setFont("맑은고딕", 14)
+    pdf.setFont("맑은고딕", 12)
     pdf.setFillColorRGB(0, 0, 0)
     pdf.drawString(50, 810, "[여비증빙]")
 
