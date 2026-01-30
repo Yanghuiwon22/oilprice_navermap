@@ -19,7 +19,7 @@ def get_oil_price(sy, sm, sd):
 
     # 서버에서 selenium을 돌리기 위한 설정
     op = Options()
-    op.add_argument('headless')
+    # op.add_argument('headless')
     op.add_argument('window-size=1920x1080')
     op.add_argument('--no-sandbox')
     op.add_argument('--disable-dev-shm-usage')

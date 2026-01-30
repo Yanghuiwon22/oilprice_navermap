@@ -122,15 +122,15 @@ def main():
                             route = f'{start_location}-{" ".join(waypoints_text)}{end_location}'
                             st.markdown(f'<span style="color:rgb{color[0],color[1],color[2]}; font-weight:700">{route}</span>', unsafe_allow_html=True)
 
-                            # st.session_state.distance = '255km'
-                            st.session_state.distance = outo_screenshot_km(st.session_state.start_location, st.session_state.end_location, st.session_state.waypoints)
+                            st.session_state.distance = '255km'
+                            # st.session_state.distance = outo_screenshot_km(st.session_state.start_location, st.session_state.end_location, st.session_state.waypoints)
 
                     else:
                         with st.spinner('지도를 생성중입니다...'):
                             route = f'{start_location}-{end_location}'
                             st.markdown(f'<span style="color:rgb{color[0],color[1],color[2]}; font-weight:700">{route}</span>', unsafe_allow_html=True)
-                            # st.session_state.distance = '255km'
-                            st.session_state.distance = outo_screenshot_km(st.session_state.start_location, st.session_state.end_location, st.session_state.waypoints)
+                            st.session_state.distance = '255km'
+                            # st.session_state.distance = outo_screenshot_km(st.session_state.start_location, st.session_state.end_location, st.session_state.waypoints)
 
                     st.session_state.route = route
 
