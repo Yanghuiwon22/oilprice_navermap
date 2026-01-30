@@ -19,12 +19,13 @@ def get_oil_price(sy, sm, sd):
 
     # 서버에서 selenium을 돌리기 위한 설정
     op = Options()
-    # op.add_argument('headless')
-    op.add_argument('window-size=1920x1080')
+    op.add_argument('--headless=new')
+    op.add_argument('--window-size=1920,3000')
+    op.add_argument("disable-gpu")
+
     op.add_argument('--no-sandbox')
     op.add_argument('--disable-dev-shm-usage')
 
-    op.add_argument("disable-gpu")
     op.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0")
     op.add_argument('lang=ko_KR')
@@ -39,7 +40,7 @@ def get_oil_price(sy, sm, sd):
     # ================================ 설정 완료 ===============================
 
     driver.get(url)
-    driver.maximize_window()    # start_year
+    # driver.maximize_window()    # start_year
 
     select_sy = Select(driver.find_element(By.ID, 'STA_Y'))
     select_sy.select_by_value(str(sy))
@@ -59,12 +60,21 @@ def get_oil_price(sy, sm, sd):
     select_ed = Select(driver.find_element(By.ID, 'END_D'))
     select_ed.select_by_value(f'{sd:02d}')
 
-    time.sleep(1)
+    # time.sleep(1)
+    #
+    # btn_search = WebDriverWait(driver, 10).until(
+    #     EC.element_to_be_clickable((By.ID, 'btn_search'))
+    # )
+    # btn_search.click()
 
-    btn_search = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.ID, 'btn_search'))
-    )
-    btn_search.click()
+    wait = WebDriverWait(driver, 10)
+
+    btn = wait.until(EC.presence_of_element_located((By.ID, "btn_search")))
+
+    driver.execute_script("""
+    arguments[0].scrollIntoView({block:'center'});
+    arguments[0].click();
+    """, btn)
 
     time.sleep(1)
 
