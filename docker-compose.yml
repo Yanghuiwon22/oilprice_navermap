@@ -1,12 +1,23 @@
 version: '3'
 
 services:
-  streamlit:
+  api:
     build: .
+    container_name: oilprice_navermap
     ports:
-      - "6800:6800"
+      - "8101:8101"
     volumes:
       - ./:/usr/src/app
-    command: streamlit run main_streamlit.py --server.port 6800
 
+    command: python -m waitress --host=0.0.0.0 --port=8000 --threads=2 main_waitress:app
+    shm_size: "2gb"   # ⭐ selenium 필수
 
+  streamlit:
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /app
+    command: streamlit run app.py --server.port 8102 --server.address 0.0.0.0
+    ports:
+      - "8102:8102"
+    depends_on:
+      - api

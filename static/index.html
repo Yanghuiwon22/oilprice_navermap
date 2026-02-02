@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>지도 + 휘발유 가격</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        body {
+            display: flex; /* 전체를 좌우 레이아웃으로 */
+            height: 100vh; /* 화면 전체 높이 */
+            margin: 0;
+            padding: 0;
+        }
+
+        #sidebar {
+            width: 300px; /* 사이드바 너비 */
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        #main {
+            flex: 1; /* 남은 영역을 결과 영역으로 */
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        #result {
+            display: flex; /* 카드들을 가로로 배치 */
+            flex-wrap: wrap; /* 화면이 좁으면 아래로 내려감 */
+            gap: 20px; /* 카드 사이 간격 */
+        }
+
+        .card {
+            flex: 1 1 45%; /* 카드 최소 45% 너비, 남은 공간 확장 */
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /*.card {*/
+        /*    background-color: #fff;*/
+        /*    padding: 15px;*/
+        /*    margin-bottom: 20px;*/
+        /*    border-radius: 8px;*/
+        /*    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);*/
+        /*}*/
+
+        .card img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 12px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        img {
+            max-width: 100%;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+        }
+
+        #sidebar input, #sidebar select {
+            width: 100%;
+            padding: 6px 8px;
+            margin-top: 4px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #sidebar button {
+            width: 100%;
+            background-color: #007BFF;
+            color: #fff;
+            font-weight: bold;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #sidebar button:hover {
+            background-color: #0056b3;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 10px;
+            margin-right: 10px; /* 버튼 사이 간격 */
+            padding: 10px 20px; /* 버튼 크기 증가 */
+            background-color: #007BFF; /* 파란색 */
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+
+        download-btn:hover {
+            background-color: #0056b3; /* 호버 시 색상 변경 */
+        }
+    </style>
+</head>
+<body>
+
+
+<body>
+<div id="sidebar">
+    <label>왕복 / 편도</label><br>
+    <select id="round" onchange="toggleEndInput()">
+        <option value="round">왕복</option>
+        <option value="one" selected>편도</option>
+    </select><br><br>
+
+    <label>출발지</label><br>
+    <input id="start" value="전북대"><br><br>
+
+    <div id="end-wrapper">
+        <label>도착지</label><br>
+        <input id="end"><br><br>
+    </div>
+
+    <label>경유지 (쉼표로 구분)</label><br>
+    <input id="waypoints"><br><br>
+
+    <label>날짜</label><br>
+    <input type="date" id="date"><br><br>
+
+    <button onclick="run()">실행</button>
+    <pre id="status"></pre>
+</div>
+</div>
+
+<div id="main">
+    <h2 style="text-align: center; font-size: 30px">🗺 지도 & ⛽ 휘발유 가격</h2>
+
+    <div id="result"></div>
+</div>
+</body>
+
+<script>
+    function toggleEndInput() {
+        const isRound = document.getElementById("round").value === "round";
+        document.getElementById("end-wrapper").style.display =
+            isRound ? "none" : "block";
+    }
+
+    function setYesterday() {
+        const today = new Date();
+        today.setDate(today.getDate() - 1);
+
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+        const dd = String(today.getDate()).padStart(2, "0");
+
+        document.getElementById("date").value = `${yyyy}-${mm}-${dd}`;
+    }
+
+    window.onload = function () {
+        toggleEndInput();
+        setYesterday();
+    };
+
+    async function run() {
+        const start = document.getElementById("start").value;
+        const end = document.getElementById("round").value === "round"
+            ? start
+            : document.getElementById("end").value;
+
+        const waypoints = document.getElementById("waypoints")
+            .value.split(",").map(v => v.trim()).filter(v => v);
+
+        const date = document.getElementById("date").value.split("-").map(Number);
+
+        document.getElementById("status").innerText = "실행 중...";
+
+        const res = await fetch("/run", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                start,
+                end,
+                waypoints,
+                date
+            })
+        });
+
+        const data = await res.json();
+        document.getElementById("status").innerText = "";
+
+        if (data.status !== "success") {
+            alert(data.message);
+            return;
+        }
+
+        function makeRoute(start, waypoints, end) {
+            const route = [start, ...waypoints, end]
+                .filter(v => v && v.length > 0);
+
+            return route.join(" -> ");
+        }
+
+        const routeText = makeRoute(start, waypoints, end);
+        document.getElementById("result").innerHTML = `
+<div class="card">
+    <p><b>경로:</b> ${routeText}</p>
+    <p><b>거리:</b> ${data.distance}</p>
+    <img src="static/output/naver_map.png">
+</div>
+
+<div class="card">
+    <p><b>휘발유 가격:</b> ${data.oil_price}원</p>
+    <img src="static/output/oil_price.png">
+</div>
+
+    <a class='download-btn' href="/static/output/navermap_oilprice.docx" download>DOCX 다운로드</a>
+    <a class='download-btn' href="/download/navermap_oilprice.pdf" download>PDF 다운로드</a>
+  `;
+    }
+</script>
+
+</body>
+</html>

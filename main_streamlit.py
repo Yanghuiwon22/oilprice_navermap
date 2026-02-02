@@ -122,15 +122,15 @@ def main():
                             route = f'{start_location}-{" ".join(waypoints_text)}{end_location}'
                             st.markdown(f'<span style="color:rgb{color[0],color[1],color[2]}; font-weight:700">{route}</span>', unsafe_allow_html=True)
 
-                            st.session_state.distance = '255km'
-                            # st.session_state.distance = outo_screenshot_km(st.session_state.start_location, st.session_state.end_location, st.session_state.waypoints)
+                            # st.session_state.distance = '255km'
+                            st.session_state.distance = outo_screenshot_km(st.session_state.start_location, st.session_state.end_location, st.session_state.waypoints)
 
                     else:
                         with st.spinner('지도를 생성중입니다...'):
                             route = f'{start_location}-{end_location}'
                             st.markdown(f'<span style="color:rgb{color[0],color[1],color[2]}; font-weight:700">{route}</span>', unsafe_allow_html=True)
-                            st.session_state.distance = '255km'
-                            # st.session_state.distance = outo_screenshot_km(st.session_state.start_location, st.session_state.end_location, st.session_state.waypoints)
+                            # st.session_state.distance = '255km'
+                            st.session_state.distance = outo_screenshot_km(st.session_state.start_location, st.session_state.end_location, st.session_state.waypoints)
 
                     st.session_state.route = route
 
@@ -147,13 +147,13 @@ def main():
             if st.session_state.distance is not None:
                 st.download_button(
                     label="지도 이미지 다운로드",
-                    data=img2bytes('./output/naver_map.png'),
+                    data=img2bytes('./static/output/naver_map.png'),
                     file_name=f'{route}.png',
                     mime='image/png'
                 )
 
         if st.session_state.distance is not None:
-            map_img = Image.open('./output/naver_map.png')
+            map_img = Image.open('./static/output/naver_map.png')
             st.image(map_img)
 
         text2, img_btn2 = st.columns([1.5, 1.5])
@@ -175,13 +175,13 @@ def main():
 
                 st.download_button(
                     label="휘발유 가격 이미지 다운로드",
-                    data=img2bytes('./output/oil_price.png'),
+                    data=img2bytes('./static/output/oil_price.png'),
                     file_name=f'{oil_date}.png',
                     mime='image/png'
                 )
 
         if st.session_state.oil_price is not None:
-            oil_img = Image.open('output/oil_price.png')
+            oil_img = Image.open('static/output/oil_price.png')
             st.image(oil_img)
 
         btn2, btn3 = st.columns([1.5, 1.5])

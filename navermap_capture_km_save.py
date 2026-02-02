@@ -70,6 +70,7 @@ def outo_screenshot_km(start_location, end_location, waypoints):
                 waypoints_search = WebDriverWait(browser, 10).until(
                     EC.element_to_be_clickable((By.CSS_SELECTOR,'.search_btn_area button:nth-of-type(2)'))
                 )
+
                 waypoints_search.click()
                 print(waypoints[i])
 
@@ -91,7 +92,6 @@ def outo_screenshot_km(start_location, end_location, waypoints):
             time.sleep(1.5)
             search[1].send_keys(Keys.RETURN)
 
-        print(len(search))
         search[0].send_keys(f"{start_location}")
         time.sleep(2)
         search[0].send_keys(Keys.RETURN)
