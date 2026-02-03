@@ -142,10 +142,14 @@ def outo_screenshot_km(start_location, end_location, waypoints):
         time.sleep(5)
 
         text = browser.page_source
-        route_elem = browser.find_element(By.CLASS_NAME, "route_summary_info_duration")
-
-        # 하위 요소 item_distance 선택
-        distance = route_elem.find_element(By.CLASS_NAME, "item_distance").text
+        try:
+            route_elem = WebDriverWait(browser, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "route_summary_info_duration"))
+            )
+            distance_elem = route_elem.find_element(By.CLASS_NAME, "item_distance")
+            distance = distance_elem.text
+        except:
+            distance = None
         # distance = distance_between_locations.text
 
         time.sleep(1)
@@ -219,9 +223,9 @@ def get_pdf(start_location, end_location, waypoints, distance, oil_date, oil_pri
     buffer = io.BytesIO()
     pdf = canvas.Canvas(buffer)
     pdf.setFillColorRGB(color[0], color[1], color[2]) # RGB 색상을 설정합니다.
-    font_path = "malgun.ttf"
+    font_path = "static/data/malgun.ttf"
     pdfmetrics.registerFont(TTFont("맑은고딕", font_path))
-    pdfmetrics.registerFont(TTFont("맑은고딕-Bold", "malgunbd.ttf"))  # 볼드체 폰트 등록
+    pdfmetrics.registerFont(TTFont("맑은고딕-Bold", "static/data/malgunbd.ttf"))  # 볼드체 폰트 등록
 
     pdf.setFont("맑은고딕", 12)
     pdf.setFillColorRGB(0, 0, 0)

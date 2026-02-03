@@ -23,7 +23,7 @@ COPY . /usr/src/app
 
 RUN pip install -r requirements.txt
 
-EXPOSE 8101
+EXPOSE 80
 #CMD ["waitress-serve", "--host=0.0.0.0", "--port=8101", "--threads=2", "main_waitress:app"]
 
 
