@@ -29,7 +29,7 @@ def outo_screenshot_km(start_location, end_location, waypoints):
 
     op = Options()
     # op.add_argument('headless')
-    # op.add_argument("--headless=new")
+    op.add_argument("--headless=new")
     op.add_argument("--disable-gpu")
     op.add_argument("--disable-software-rasterizer")
     op.add_argument("--no-sandbox")
@@ -64,34 +64,70 @@ def outo_screenshot_km(start_location, end_location, waypoints):
         )
         car_button.click()
 
-        print(waypoints)
-        if len(waypoints) != 0:
-            for i in range(len(waypoints)):
-                waypoints_search = WebDriverWait(browser, 10).until(
-                    EC.element_to_be_clickable((By.CSS_SELECTOR,'.search_btn_area button:nth-of-type(2)'))
-                )
-                waypoints_search.click()
-                print(waypoints[i])
+        # if len(waypoints) != 0:
+        #     for i in range(len(waypoints)):
+        #         print(i, waypoints[i])
+        #         waypoints_search = WebDriverWait(browser, 10).until(
+        #             EC.element_to_be_clickable((By.CSS_SELECTOR,'.search_btn_area button:nth-of-type(2)'))
+        #         )
+        #         waypoints_search.click()
+        #         print(waypoints[i])
+        #
+        #     search_via = browser.find_elements(By.CSS_SELECTOR, "div.search_input_box_wrap.via input.input_search")
+        #     search = browser.find_elements(By.CLASS_NAME, "input.input_search")
+        #
+        #     print()
+        #
+        #     for idx, waypoint in enumerate(waypoints):
+        #         print(idx)
+        #         search_via[idx].send_keys(waypoint)
+        #         time.sleep(2)
+        #         search_via[idx].send_keys(Keys.RETURN)
+        #         print(waypoint, '입력완')
+        #
+        #     search[-1].send_keys(f"{end_location}")
+        #     time.sleep(1.5)
+        #     search[-1].send_keys(Keys.RETURN)
+        # 출발지 입력
+        start_input = browser.find_element(By.CSS_SELECTOR, "div.search_input_box_wrap.start input.input_search")
+        start_input.clear()
+        start_input.send_keys(start_location)
+        time.sleep(1)
+        start_input.send_keys(Keys.RETURN)
+        time.sleep(1)
 
-            search = browser.find_elements(By.CLASS_NAME, "input_search")
+        # 경유지 입력
+        for idx, waypoint in enumerate(waypoints):
+            # 경유지 input이 부족하면 버튼 클릭
+            via_inputs = browser.find_elements(By.CSS_SELECTOR, "div.search_input_box_wrap.via input.input_search")
+            if idx >= len(via_inputs):
+                add_waypoint_btn = browser.find_element(By.CSS_SELECTOR, ".search_btn_area button:nth-of-type(2)")
+                add_waypoint_btn.click()
+                time.sleep(1)
+                via_inputs = browser.find_elements(By.CSS_SELECTOR, "div.search_input_box_wrap.via input.input_search")
 
+            via_inputs[idx].clear()
+            via_inputs[idx].send_keys(waypoint)
+            time.sleep(1)
+            via_inputs[idx].send_keys(Keys.RETURN)
+            time.sleep(1)
 
-            for idx, waypoint in enumerate(waypoints):
-                search[idx + 1].send_keys(waypoint)
-                time.sleep(2)
-                search[idx + 1].send_keys(Keys.RETURN)
+        # 도착지 입력
+        goal_input = browser.find_element(By.CSS_SELECTOR, "div.search_input_box_wrap.goal input.input_search")
+        goal_input.clear()
+        goal_input.send_keys(end_location)
+        time.sleep(1)
+        goal_input.send_keys(Keys.RETURN)
+        time.sleep(1)
 
-            search[-1].send_keys(f"{end_location}")
-            time.sleep(1.5)
-            search[-1].send_keys(Keys.RETURN)
-
-        else:
-            search = browser.find_elements(By.CLASS_NAME, "input_search")
-            search[1].send_keys(f"{end_location}")
-            time.sleep(1.5)
-            search[1].send_keys(Keys.RETURN)
-
+        # else:
+        search = browser.find_elements(By.CLASS_NAME, "input_search")
         print(len(search))
+        search[1].send_keys(f"{end_location}")
+        time.sleep(1.5)
+        search[1].send_keys(Keys.RETURN)
+
+        print(search)
         search[0].send_keys(f"{start_location}")
         time.sleep(2)
         search[0].send_keys(Keys.RETURN)
@@ -106,8 +142,11 @@ def outo_screenshot_km(start_location, end_location, waypoints):
         time.sleep(5)
 
         text = browser.page_source
-        distance_between_locations = browser.find_element(By.XPATH, '//*[@id="section_content"]/div/div[2]/div[2]/div[1]/ul/li[1]/div/div/div[2]/span')
-        distance = distance_between_locations.text
+        route_elem = browser.find_element(By.CLASS_NAME, "route_summary_info_duration")
+
+        # 하위 요소 item_distance 선택
+        distance = route_elem.find_element(By.CLASS_NAME, "item_distance").text
+        # distance = distance_between_locations.text
 
         time.sleep(1)
 
@@ -118,6 +157,7 @@ def outo_screenshot_km(start_location, end_location, waypoints):
     except Exception as e:
         browser.quit()
         raise RuntimeError(f"oil price selenium error: {e}")
+
 
 
 def get_docx(start_location, end_location, waypoints, distance, oil_date, oil_price, color):

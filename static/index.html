@@ -221,16 +221,20 @@
         }
 
         const routeText = makeRoute(start, waypoints, end);
+        const timestamp = new Date().getTime(); // 현재 시간 밀리초
+
         document.getElementById("result").innerHTML = `
+
+
 <div class="card">
     <p><b>경로:</b> ${routeText}</p>
     <p><b>거리:</b> ${data.distance}</p>
-    <img src="static/output/naver_map.png">
+    <img src="static/output/naver_map.png?${timestamp}">
 </div>
 
 <div class="card">
     <p><b>휘발유 가격:</b> ${data.oil_price}원</p>
-    <img src="static/output/oil_price.png">
+    <img src="static/output/oil_price.png?${timestamp}">
 </div>
 
     <a class='download-btn' href="/static/output/navermap_oilprice.docx" download>DOCX 다운로드</a>
