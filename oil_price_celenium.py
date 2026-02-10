@@ -29,9 +29,10 @@ def get_oil_price(sy, sm, sd):
     op.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0")
 
+    driver = None
     try:
         driver = webdriver.Chrome(service=service, options=op)
-    except:
+    except Exception:
         driver = webdriver.Chrome(options=op)
 
     url = 'https://www.opinet.co.kr/user/dopospdrg/dopOsPdrgSelect.do'
@@ -118,6 +119,11 @@ def get_oil_price(sy, sm, sd):
         return oil_price.text
 
     except Exception as e:
-        driver.quit()
         raise RuntimeError(f"oil price selenium error: {e}")
+    finally:
+        if driver is not None:
+            try:
+                driver.quit()
+            except Exception:
+                pass
 

@@ -43,9 +43,10 @@ def outo_screenshot_km(start_location, end_location, waypoints):
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0")
     op.add_argument('lang=ko_KR')
 
+    browser = None
     try:
         browser = webdriver.Chrome(service=service, options=op)
-    except:
+    except Exception:
         browser = webdriver.Chrome(options=op)
 
     url = 'https://map.naver.com/p?c=15.00,0,0,0,dh'
@@ -159,8 +160,13 @@ def outo_screenshot_km(start_location, end_location, waypoints):
 
         return distance
     except Exception as e:
-        browser.quit()
         raise RuntimeError(f"oil price selenium error: {e}")
+    finally:
+        if browser is not None:
+            try:
+                browser.quit()
+            except Exception:
+                pass
 
 
 
